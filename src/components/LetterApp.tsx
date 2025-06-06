@@ -1,9 +1,8 @@
-
 import React, { useState } from 'react';
 import LetterForm from './LetterForm';
 import LetterPreview from './LetterPreview';
 import { Button } from '@/components/ui/button';
-import { FileText, Edit } from 'lucide-react';
+import { FileText, Edit, Download } from 'lucide-react';
 
 export interface LetterData {
   date: string;
@@ -52,7 +51,7 @@ const LetterApp: React.FC = () => {
     setIsPreviewMode(false);
   };
 
-  const handlePrint = () => {
+  const handleDownloadPDF = () => {
     window.print();
   };
 
@@ -74,9 +73,9 @@ const LetterApp: React.FC = () => {
                 <Edit className="w-4 h-4" />
                 Edit Letter
               </Button>
-              <Button onClick={handlePrint} className="flex items-center gap-2">
-                <FileText className="w-4 h-4" />
-                Print / Save as PDF
+              <Button onClick={handleDownloadPDF} className="flex items-center gap-2">
+                <Download className="w-4 h-4" />
+                Download PDF
               </Button>
             </div>
             <LetterPreview data={letterData} />
