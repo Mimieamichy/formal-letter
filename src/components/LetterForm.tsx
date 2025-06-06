@@ -1,0 +1,167 @@
+
+import React, { useState } from 'react';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
+import { Label } from '@/components/ui/label';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { LetterData } from './LetterApp';
+
+interface LetterFormProps {
+  onSubmit: (data: LetterData) => void;
+  initialData: LetterData;
+}
+
+const LetterForm: React.FC<LetterFormProps> = ({ onSubmit, initialData }) => {
+  const [formData, setFormData] = useState<LetterData>(initialData);
+
+  const handleInputChange = (field: keyof LetterData, value: string) => {
+    setFormData(prev => ({
+      ...prev,
+      [field]: value
+    }));
+  };
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0] || null;
+    setFormData(prev => ({
+      ...prev,
+      stampFile: file
+    }));
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    onSubmit(formData);
+  };
+
+  return (
+    <Card>
+      <CardHeader>
+        <CardTitle>Letter Details</CardTitle>
+      </CardHeader>
+      <CardContent>
+        <form onSubmit={handleSubmit} className="space-y-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="space-y-2">
+              <Label htmlFor="date">Date</Label>
+              <Input
+                id="date"
+                type="date"
+                value={formData.date}
+                onChange={(e) => handleInputChange('date', e.target.value)}
+                required
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="attentionTo">Attention To</Label>
+              <Input
+                id="attentionTo"
+                value={formData.attentionTo}
+                onChange={(e) => handleInputChange('attentionTo', e.target.value)}
+                required
+              />
+            </div>
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="letterhead">Letterhead</Label>
+            <Textarea
+              id="letterhead"
+              value={formData.letterhead}
+              onChange={(e) => handleInputChange('letterhead', e.target.value)}
+              placeholder="Company name and subtitle"
+              rows={3}
+              required
+            />
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="contactInfo">Contact Information</Label>
+            <Textarea
+              id="contactInfo"
+              value={formData.contactInfo}
+              onChange={(e) => handleInputChange('contactInfo', e.target.value)}
+              placeholder="Phone, email, website, address"
+              rows={4}
+              required
+            />
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="letterBody">Letter Body</Label>
+            <Textarea
+              id="letterBody"
+              value={formData.letterBody}
+              onChange={(e) => handleInputChange('letterBody', e.target.value)}
+              placeholder="Main content of the letter"
+              rows={10}
+              required
+            />
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="space-y-2">
+              <Label htmlFor="name">Name</Label>
+              <Input
+                id="name"
+                value={formData.name}
+                onChange={(e) => handleInputChange('name', e.target.value)}
+                required
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="position">Position</Label>
+              <Input
+                id="position"
+                value={formData.position}
+                onChange={(e) => handleInputChange('position', e.target.value)}
+                required
+              />
+            </div>
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="signature">Signature (Text)</Label>
+            <Input
+              id="signature"
+              value={formData.signature}
+              onChange={(e) => handleInputChange('signature', e.target.value)}
+              placeholder="Signature text or leave empty for handwritten signature space"
+            />
+          </div>
+
+          <div className="space-y-4">
+            <Label>Stamp</Label>
+            <div className="space-y-2">
+              <div>
+                <Label htmlFor="stampText">Stamp Text</Label>
+                <Input
+                  id="stampText"
+                  value={formData.stamp}
+                  onChange={(e) => handleInputChange('stamp', e.target.value)}
+                  placeholder="e.g., APPROVED"
+                />
+              </div>
+              <div>
+                <Label htmlFor="stampFile">Or Upload Stamp Image</Label>
+                <Input
+                  id="stampFile"
+                  type="file"
+                  accept="image/*"
+                  onChange={handleFileChange}
+                />
+              </div>
+            </div>
+          </div>
+
+          <Button type="submit" className="w-full">
+            Generate Letter
+          </Button>
+        </form>
+      </CardContent>
+    </Card>
+  );
+};
+
+export default LetterForm;
