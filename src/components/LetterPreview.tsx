@@ -1,6 +1,5 @@
-
-import React from 'react';
-import { LetterData } from './LetterApp';
+import React from "react";
+import { LetterData } from "./LetterApp";
 
 interface LetterPreviewProps {
   data: LetterData;
@@ -8,21 +7,21 @@ interface LetterPreviewProps {
 
 const LetterPreview: React.FC<LetterPreviewProps> = ({ data }) => {
   const formatText = (text: string) => {
-    return text.split('\n').map((line, index) => (
+    return text.split("\n").map((line, index) => (
       <React.Fragment key={index}>
         {line}
-        {index < text.split('\n').length - 1 && <br />}
+        {index < text.split("\n").length - 1 && <br />}
       </React.Fragment>
     ));
   };
 
   const formatDate = (dateString: string) => {
-    if (!dateString) return '';
+    if (!dateString) return "";
     const date = new Date(dateString);
-    return date.toLocaleDateString('en-US', {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric'
+    return date.toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
     });
   };
 
@@ -36,8 +35,11 @@ const LetterPreview: React.FC<LetterPreviewProps> = ({ data }) => {
               <div className="text-2xl font-bold text-blue-600 leading-tight">
                 {formatText(data.letterhead)}
               </div>
+              <div className="text-[10px] font-bold text-blue-600 leading-tight">
+                {formatText(data.subhead)}
+              </div>
             </div>
-            <div className="text-right text-sm text-gray-600 max-w-md">
+            <div className="text-sm text-gray-700 max-w-md whitespace-pre-line leading-relaxed space-y-1">
               {formatText(data.contactInfo)}
             </div>
           </div>
@@ -46,24 +48,27 @@ const LetterPreview: React.FC<LetterPreviewProps> = ({ data }) => {
         {/* Top Approval Stamp - Top Right */}
         <div className="absolute top-32 right-8">
           {data.approvalStampFile ? (
-            <img 
-              src={URL.createObjectURL(data.approvalStampFile)} 
-              alt="Approval Stamp" 
+            <img
+              src={URL.createObjectURL(data.approvalStampFile)}
+              alt="Approval Stamp"
               className="w-24 h-24 object-contain"
             />
-          ) : data.approvalStamp && (
-            <div className="w-24 h-24 rounded-full border-4 border-red-500 flex items-center justify-center bg-red-50">
-              <span className="text-red-500 font-bold text-xs text-center transform -rotate-12">
-                {data.approvalStamp}
-              </span>
-            </div>
+          ) : (
+            data.approvalStamp && (
+              <div className="w-24 h-24 rounded-full border-4 border-red-500 flex items-center justify-center bg-red-50">
+                <span className="text-red-500 font-bold text-xs text-center transform -rotate-12">
+                  {data.approvalStamp}
+                </span>
+              </div>
+            )
           )}
         </div>
 
         {/* Date and Attention */}
         <div className="flex justify-between items-start mb-6">
           <div>
-            <span className="font-semibold">ATTENTION TO:</span> {data.attentionTo}
+            <span className="font-semibold">ATTENTION TO:</span>{" "}
+            {data.attentionTo}
           </div>
           <div className="text-right">
             <span className="font-semibold">Date:</span> {formatDate(data.date)}
@@ -87,27 +92,31 @@ const LetterPreview: React.FC<LetterPreviewProps> = ({ data }) => {
           <p className="mb-2">Therefore, please submit the following:</p>
           <ul className="list-disc list-inside space-y-1 ml-4">
             <li>Filled Supplier Approval Registration Form.</li>
-            <li>Company Commercial Trade License/Certificate in official English translation.</li>
+            <li>
+              Company Commercial Trade License/Certificate in official English
+              translation.
+            </li>
             <li>Copy of HSE Certificate.</li>
             <li>Copy of QA Certificate for ISO series.</li>
           </ul>
         </div>
 
         <p className="mb-8">
-          Congratulations once again. We look forward to your prompt response and cooperation.
+          Congratulations once again. We look forward to your prompt response
+          and cooperation.
         </p>
 
         {/* Bottom Section with Signature and Stamps */}
         <div className="mt-12">
           <p className="font-semibold mb-8">YOURS FAITHFULLY</p>
-          
+
           {/* Signature and Name Section */}
           <div className="mb-8">
             {data.signatureImage && (
               <div className="mb-4">
-                <img 
-                  src={data.signatureImage} 
-                  alt="Signature" 
+                <img
+                  src={data.signatureImage}
+                  alt="Signature"
                   className="max-w-48 h-16 object-contain"
                 />
               </div>
@@ -118,42 +127,48 @@ const LetterPreview: React.FC<LetterPreviewProps> = ({ data }) => {
           </div>
 
           {/* Bottom Stamps Row */}
-          <div className="flex justify-between items-center mt-8">
-            {/* Bottom Approval Stamp - Left */}
+          <div className="flex justify-center ml-40 items-center mt-8 space-x-8">
+            {/* Bottom Approval Stamp */}
+
             <div className="flex flex-col items-center">
-              {data.bottomApprovalStampFile ? (
-                <img 
-                  src={URL.createObjectURL(data.bottomApprovalStampFile)} 
-                  alt="Bottom Approval Stamp" 
-                  className="w-20 h-20 object-contain"
+              {data.stampFile ? (
+                <img
+                  src={URL.createObjectURL(data.stampFile)}
+                  alt="Company Seal"
+                  className="w-50 h-40 object-contain"
                 />
-              ) : data.bottomApprovalStamp && (
-                <div className="w-20 h-20 rounded-full border-4 border-green-500 flex items-center justify-center bg-green-50">
-                  <span className="text-green-500 font-bold text-xs text-center transform -rotate-12">
-                    {data.bottomApprovalStamp}
-                  </span>
-                </div>
+              ) : (
+                data.stamp && (
+                  <div className="w-20 h-20 rounded-full bg-red-600 flex items-center justify-center">
+                    <div className="w-16 h-16 rounded-full border-2 border-white flex items-center justify-center">
+                      <span className="text-white text-xs font-bold text-center">
+                        {data.stamp}
+                      </span>
+                    </div>
+                  </div>
+                )
               )}
             </div>
 
-            {/* Company Seal/Stamp - Right */}
             <div className="flex flex-col items-center">
-              {data.stampFile ? (
-                <img 
-                  src={URL.createObjectURL(data.stampFile)} 
-                  alt="Company Seal" 
-                  className="w-20 h-20 object-contain"
+              {data.bottomApprovalStampFile ? (
+                <img
+                  src={URL.createObjectURL(data.bottomApprovalStampFile)}
+                  alt="Bottom Approval Stamp"
+                  className="w-50 h-40 object-contain"
                 />
-              ) : data.stamp && (
-                <div className="w-20 h-20 rounded-full bg-red-600 flex items-center justify-center">
-                  <div className="w-16 h-16 rounded-full border-2 border-white flex items-center justify-center">
-                    <span className="text-white text-xs font-bold text-center">
-                      {data.stamp}
+              ) : (
+                data.bottomApprovalStamp && (
+                  <div className="w-40 h-30 rounded-full border-4 border-green-500 flex items-center justify-center bg-green-50">
+                    <span className="text-green-500 font-bold text-xs text-center transform -rotate-12">
+                      {data.bottomApprovalStamp}
                     </span>
                   </div>
-                </div>
+                )
               )}
             </div>
+
+            {/* Company Seal/Stamp */}
           </div>
         </div>
       </div>

@@ -107,7 +107,21 @@ const LetterForm: React.FC<LetterFormProps> = ({ onSubmit, initialData }) => {
               id="letterhead"
               value={formData.letterhead}
               onChange={(e) => handleInputChange('letterhead', e.target.value)}
-              placeholder="Company name and subtitle"
+              placeholder="Company name "
+              rows={3}
+              required
+            />
+          </div>
+          <div className="space-y-2">
+            <Label htmlFor="subhead" className="flex items-center gap-2">
+              <Building className="w-4 h-4" />
+              Subhead
+            </Label>
+            <Textarea
+              id="letterhead"
+              value={formData.subhead}
+              onChange={(e) => handleInputChange('subhead', e.target.value)}
+              placeholder="subtitle"
               rows={3}
               required
             />
