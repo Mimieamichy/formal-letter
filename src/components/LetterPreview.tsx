@@ -43,6 +43,23 @@ const LetterPreview: React.FC<LetterPreviewProps> = ({ data }) => {
           </div>
         </div>
 
+        {/* Approval Stamp - Top Right */}
+        <div className="absolute top-32 right-8">
+          {data.approvalStampFile ? (
+            <img 
+              src={URL.createObjectURL(data.approvalStampFile)} 
+              alt="Approval Stamp" 
+              className="w-24 h-24 object-contain"
+            />
+          ) : data.approvalStamp && (
+            <div className="w-24 h-24 rounded-full border-4 border-red-500 flex items-center justify-center bg-red-50">
+              <span className="text-red-500 font-bold text-xs text-center transform -rotate-12">
+                {data.approvalStamp}
+              </span>
+            </div>
+          )}
+        </div>
+
         {/* Date and Attention */}
         <div className="flex justify-between items-start mb-6">
           <div>
@@ -51,23 +68,6 @@ const LetterPreview: React.FC<LetterPreviewProps> = ({ data }) => {
           <div className="text-right">
             <span className="font-semibold">Date:</span> {formatDate(data.date)}
           </div>
-        </div>
-
-        {/* Approved Stamp - Top Right */}
-        <div className="absolute top-32 right-8">
-          {data.stampFile ? (
-            <img 
-              src={URL.createObjectURL(data.stampFile)} 
-              alt="Stamp" 
-              className="w-24 h-24 object-contain"
-            />
-          ) : data.stamp && (
-            <div className="w-24 h-24 rounded-full border-4 border-red-500 flex items-center justify-center bg-red-50">
-              <span className="text-red-500 font-bold text-xs text-center transform -rotate-12">
-                {data.stamp}
-              </span>
-            </div>
-          )}
         </div>
 
         {/* Subject Line */}
@@ -102,8 +102,14 @@ const LetterPreview: React.FC<LetterPreviewProps> = ({ data }) => {
           <div>
             <p className="font-semibold mb-8">YOURS FAITHFULLY</p>
             <div className="space-y-2">
-              {data.signature && (
-                <div className="font-cursive text-xl mb-2">{data.signature}</div>
+              {data.signatureImage && (
+                <div className="mb-2">
+                  <img 
+                    src={data.signatureImage} 
+                    alt="Signature" 
+                    className="max-w-48 h-16 object-contain"
+                  />
+                </div>
               )}
               <div className="border-b border-black w-48 mb-1"></div>
               <div className="font-semibold">{data.name}</div>
@@ -111,22 +117,21 @@ const LetterPreview: React.FC<LetterPreviewProps> = ({ data }) => {
             </div>
           </div>
 
-          {/* Seal/Stamp area */}
-          <div className="flex flex-col items-center space-y-4">
-            <div className="w-20 h-20 rounded-full bg-red-600 flex items-center justify-center">
-              <div className="w-16 h-16 rounded-full border-2 border-white flex items-center justify-center">
-                <span className="text-white text-xs font-bold text-center">
-                  SEAL
-                </span>
-              </div>
-            </div>
-            
-            {/* Second Approved Stamp */}
-            {data.stamp && (
-              <div className="w-20 h-20 rounded-full border-4 border-red-500 flex items-center justify-center bg-red-50">
-                <span className="text-red-500 font-bold text-xs text-center transform -rotate-12">
-                  {data.stamp}
-                </span>
+          {/* Company Seal/Stamp - Bottom Right */}
+          <div className="flex flex-col items-center">
+            {data.stampFile ? (
+              <img 
+                src={URL.createObjectURL(data.stampFile)} 
+                alt="Company Seal" 
+                className="w-20 h-20 object-contain"
+              />
+            ) : data.stamp && (
+              <div className="w-20 h-20 rounded-full bg-red-600 flex items-center justify-center">
+                <div className="w-16 h-16 rounded-full border-2 border-white flex items-center justify-center">
+                  <span className="text-white text-xs font-bold text-center">
+                    {data.stamp}
+                  </span>
+                </div>
               </div>
             )}
           </div>

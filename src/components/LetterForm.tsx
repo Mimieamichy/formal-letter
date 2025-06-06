@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -6,6 +5,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { LetterData } from './LetterApp';
+import SignatureCanvas from './SignatureCanvas';
 
 interface LetterFormProps {
   onSubmit: (data: LetterData) => void;
@@ -22,11 +22,26 @@ const LetterForm: React.FC<LetterFormProps> = ({ onSubmit, initialData }) => {
     }));
   };
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleStampFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0] || null;
     setFormData(prev => ({
       ...prev,
       stampFile: file
+    }));
+  };
+
+  const handleApprovalStampFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0] || null;
+    setFormData(prev => ({
+      ...prev,
+      approvalStampFile: file
+    }));
+  };
+
+  const handleSignatureChange = (signature: string | null) => {
+    setFormData(prev => ({
+      ...prev,
+      signatureImage: signature
     }));
   };
 
@@ -122,17 +137,39 @@ const LetterForm: React.FC<LetterFormProps> = ({ onSubmit, initialData }) => {
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="signature">Signature (Text)</Label>
-            <Input
-              id="signature"
-              value={formData.signature}
-              onChange={(e) => handleInputChange('signature', e.target.value)}
-              placeholder="Signature text or leave empty for handwritten signature space"
+            <Label>Signature</Label>
+            <SignatureCanvas 
+              onSignatureChange={handleSignatureChange}
+              initialSignature={formData.signatureImage}
             />
           </div>
 
           <div className="space-y-4">
-            <Label>Stamp</Label>
+            <Label>Approval Stamp (Top Right)</Label>
+            <div className="space-y-2">
+              <div>
+                <Label htmlFor="approvalStampText">Approval Stamp Text</Label>
+                <Input
+                  id="approvalStampText"
+                  value={formData.approvalStamp}
+                  onChange={(e) => handleInputChange('approvalStamp', e.target.value)}
+                  placeholder="e.g., APPROVED"
+                />
+              </div>
+              <div>
+                <Label htmlFor="approvalStampFile">Or Upload Approval Stamp Image</Label>
+                <Input
+                  id="approvalStampFile"
+                  type="file"
+                  accept="image/*"
+                  onChange={handleApprovalStampFileChange}
+                />
+              </div>
+            </div>
+          </div>
+
+          <div className="space-y-4">
+            <Label>Company Stamp/Seal (Bottom Right)</Label>
             <div className="space-y-2">
               <div>
                 <Label htmlFor="stampText">Stamp Text</Label>
@@ -140,7 +177,7 @@ const LetterForm: React.FC<LetterFormProps> = ({ onSubmit, initialData }) => {
                   id="stampText"
                   value={formData.stamp}
                   onChange={(e) => handleInputChange('stamp', e.target.value)}
-                  placeholder="e.g., APPROVED"
+                  placeholder="e.g., SEAL"
                 />
               </div>
               <div>
@@ -149,7 +186,7 @@ const LetterForm: React.FC<LetterFormProps> = ({ onSubmit, initialData }) => {
                   id="stampFile"
                   type="file"
                   accept="image/*"
-                  onChange={handleFileChange}
+                  onChange={handleStampFileChange}
                 />
               </div>
             </div>
