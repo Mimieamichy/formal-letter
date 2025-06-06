@@ -19,6 +19,8 @@ export interface LetterData {
   stampFile: File | null;
   approvalStamp: string;
   approvalStampFile: File | null;
+  bottomApprovalStamp: string;
+  bottomApprovalStampFile: File | null;
 }
 
 const LetterApp: React.FC = () => {
@@ -36,7 +38,9 @@ const LetterApp: React.FC = () => {
     stamp: 'SEAL',
     stampFile: null,
     approvalStamp: 'APPROVED',
-    approvalStampFile: null
+    approvalStampFile: null,
+    bottomApprovalStamp: 'VERIFIED',
+    bottomApprovalStampFile: null
   });
 
   const handleFormSubmit = (data: LetterData) => {

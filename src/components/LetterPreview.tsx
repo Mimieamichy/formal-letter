@@ -43,7 +43,7 @@ const LetterPreview: React.FC<LetterPreviewProps> = ({ data }) => {
           </div>
         </div>
 
-        {/* Approval Stamp - Top Right */}
+        {/* Top Approval Stamp - Top Right */}
         <div className="absolute top-32 right-8">
           {data.approvalStampFile ? (
             <img 
@@ -97,43 +97,63 @@ const LetterPreview: React.FC<LetterPreviewProps> = ({ data }) => {
           Congratulations once again. We look forward to your prompt response and cooperation.
         </p>
 
-        {/* Signature Section */}
-        <div className="flex justify-between items-end mt-12">
-          <div>
-            <p className="font-semibold mb-8">YOURS FAITHFULLY</p>
-            <div className="space-y-2">
-              {data.signatureImage && (
-                <div className="mb-2">
-                  <img 
-                    src={data.signatureImage} 
-                    alt="Signature" 
-                    className="max-w-48 h-16 object-contain"
-                  />
-                </div>
-              )}
-              <div className="border-b border-black w-48 mb-1"></div>
-              <div className="font-semibold">{data.name}</div>
-              <div className="text-sm">{data.position}</div>
-            </div>
-          </div>
-
-          {/* Company Seal/Stamp - Bottom Right */}
-          <div className="flex flex-col items-center">
-            {data.stampFile ? (
-              <img 
-                src={URL.createObjectURL(data.stampFile)} 
-                alt="Company Seal" 
-                className="w-20 h-20 object-contain"
-              />
-            ) : data.stamp && (
-              <div className="w-20 h-20 rounded-full bg-red-600 flex items-center justify-center">
-                <div className="w-16 h-16 rounded-full border-2 border-white flex items-center justify-center">
-                  <span className="text-white text-xs font-bold text-center">
-                    {data.stamp}
-                  </span>
-                </div>
+        {/* Bottom Section with Signature and Stamps */}
+        <div className="mt-12">
+          <p className="font-semibold mb-8">YOURS FAITHFULLY</p>
+          
+          {/* Signature and Name Section */}
+          <div className="mb-8">
+            {data.signatureImage && (
+              <div className="mb-4">
+                <img 
+                  src={data.signatureImage} 
+                  alt="Signature" 
+                  className="max-w-48 h-16 object-contain"
+                />
               </div>
             )}
+            <div className="border-b border-black w-48 mb-2"></div>
+            <div className="font-semibold text-sm">{data.name}</div>
+            <div className="text-sm text-gray-600">{data.position}</div>
+          </div>
+
+          {/* Bottom Stamps Row */}
+          <div className="flex justify-between items-center mt-8">
+            {/* Bottom Approval Stamp - Left */}
+            <div className="flex flex-col items-center">
+              {data.bottomApprovalStampFile ? (
+                <img 
+                  src={URL.createObjectURL(data.bottomApprovalStampFile)} 
+                  alt="Bottom Approval Stamp" 
+                  className="w-20 h-20 object-contain"
+                />
+              ) : data.bottomApprovalStamp && (
+                <div className="w-20 h-20 rounded-full border-4 border-green-500 flex items-center justify-center bg-green-50">
+                  <span className="text-green-500 font-bold text-xs text-center transform -rotate-12">
+                    {data.bottomApprovalStamp}
+                  </span>
+                </div>
+              )}
+            </div>
+
+            {/* Company Seal/Stamp - Right */}
+            <div className="flex flex-col items-center">
+              {data.stampFile ? (
+                <img 
+                  src={URL.createObjectURL(data.stampFile)} 
+                  alt="Company Seal" 
+                  className="w-20 h-20 object-contain"
+                />
+              ) : data.stamp && (
+                <div className="w-20 h-20 rounded-full bg-red-600 flex items-center justify-center">
+                  <div className="w-16 h-16 rounded-full border-2 border-white flex items-center justify-center">
+                    <span className="text-white text-xs font-bold text-center">
+                      {data.stamp}
+                    </span>
+                  </div>
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </div>
