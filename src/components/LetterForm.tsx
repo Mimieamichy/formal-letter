@@ -1,11 +1,10 @@
-
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Calendar, User, Building, FileText, Pen, Stamp } from 'lucide-react';
+import { Calendar, User, Building, FileText, Pen, Stamp, Phone, Mail, Globe, MapPin, Upload } from 'lucide-react';
 import { LetterData } from './LetterApp';
 import SignatureCanvas from './SignatureCanvas';
 
@@ -53,6 +52,21 @@ const LetterForm: React.FC<LetterFormProps> = ({ onSubmit, initialData }) => {
       ...prev,
       signatureImage: signature
     }));
+  };
+
+  const handleSignatureUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        const result = event.target?.result as string;
+        setFormData(prev => ({
+          ...prev,
+          signatureImage: result
+        }));
+      };
+      reader.readAsDataURL(file);
+    }
   };
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -129,7 +143,10 @@ const LetterForm: React.FC<LetterFormProps> = ({ onSubmit, initialData }) => {
 
           <div className="space-y-2">
             <Label htmlFor="contactInfo" className="flex items-center gap-2">
-              <FileText className="w-4 h-4" />
+              <Phone className="w-4 h-4" />
+              <Mail className="w-4 h-4" />
+              <Globe className="w-4 h-4" />
+              <MapPin className="w-4 h-4" />
               Contact Information
             </Label>
             <Textarea
@@ -184,15 +201,34 @@ const LetterForm: React.FC<LetterFormProps> = ({ onSubmit, initialData }) => {
             </div>
           </div>
 
-          <div className="space-y-2">
+          <div className="space-y-4">
             <Label className="flex items-center gap-2">
               <Pen className="w-4 h-4" />
               Signature
             </Label>
-            <SignatureCanvas 
-              onSignatureChange={handleSignatureChange}
-              initialSignature={formData.signatureImage}
-            />
+            <div className="space-y-4">
+              <div>
+                <Label className="text-sm font-medium">Draw Signature</Label>
+                <SignatureCanvas 
+                  onSignatureChange={handleSignatureChange}
+                  initialSignature={formData.signatureImage}
+                />
+              </div>
+              <div className="text-center text-sm text-muted-foreground">OR</div>
+              <div>
+                <Label htmlFor="signatureUpload" className="flex items-center gap-2 text-sm font-medium">
+                  <Upload className="w-4 h-4" />
+                  Upload Signature Image
+                </Label>
+                <Input
+                  id="signatureUpload"
+                  type="file"
+                  accept="image/*"
+                  onChange={handleSignatureUpload}
+                  className="mt-1"
+                />
+              </div>
+            </div>
           </div>
 
           <div className="space-y-4">
