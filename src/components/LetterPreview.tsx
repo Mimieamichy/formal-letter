@@ -1,5 +1,6 @@
 import React from "react";
 import { LetterData } from "./LetterApp";
+import { Phone, Mail, Globe, MapPin } from "lucide-react";
 
 interface LetterPreviewProps {
   data: LetterData;
@@ -13,6 +14,21 @@ const LetterPreview: React.FC<LetterPreviewProps> = ({ data }) => {
         {index < text.split("\n").length - 1 && <br />}
       </React.Fragment>
     ));
+  };
+
+  const getIcon = (type: string) => {
+    switch (type) {
+      case "phone":
+        return <Phone className="w-4 h-4 text-blue-600" />;
+      case "email":
+        return <Mail className="w-4 h-4 text-blue-600" />;
+      case "website":
+        return <Globe className="w-4 h-4 text-blue-600" />;
+      case "address":
+        return <MapPin className="w-4 h-4 text-blue-600" />;
+      default:
+        return null;
+    }
   };
 
   const formatDate = (dateString: string) => {
@@ -39,8 +55,19 @@ const LetterPreview: React.FC<LetterPreviewProps> = ({ data }) => {
                 {formatText(data.subhead)}
               </div>
             </div>
-            <div className="text-sm text-gray-700 max-w-md whitespace-pre-line leading-relaxed space-y-1">
-              {formatText(data.contactInfo)}
+            <div className="text-sm text-gray-700 max-w-md space-y-2">
+              {data.contactInfo.map((item, index) => (
+                <div key={index} className="flex items-start gap-2">
+                  {getIcon(item.type)}
+                  <span
+                    className={
+                      item.type === "address" ? "whitespace-pre-line" : ""
+                    }
+                  >
+                    {item.value}
+                  </span>
+                </div>
+              ))}
             </div>
           </div>
         </div>
