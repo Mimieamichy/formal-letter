@@ -16,6 +16,7 @@ import {
   Globe,
   MapPin,
   Upload,
+  Image,
 } from "lucide-react";
 import { LetterData, ContactItem } from "./LetterApp";
 import SignatureCanvas from "./SignatureCanvas";
@@ -28,13 +29,20 @@ interface LetterFormProps {
 const LetterForm: React.FC<LetterFormProps> = ({ onSubmit, initialData }) => {
   const [formData, setFormData] = useState<LetterData>(initialData);
 
- const handleInputChange = (field: keyof LetterData, value: any) => {
-  setFormData(prev => ({
-    ...prev,
-    [field]: value
-  }));
-};
+  const handleInputChange = (field: keyof LetterData, value: any) => {
+    setFormData(prev => ({
+      ...prev,
+      [field]: value
+    }));
+  };
 
+  const handleLogoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0] || null;
+    setFormData((prev) => ({
+      ...prev,
+      logo: file,
+    }));
+  };
 
   const handleStampFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0] || null;
@@ -153,6 +161,19 @@ const LetterForm: React.FC<LetterFormProps> = ({ onSubmit, initialData }) => {
                 required
               />
             </div>
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="logo" className="flex items-center gap-2">
+              <Image className="w-4 h-4" />
+              Company Logo
+            </Label>
+            <Input
+              id="logo"
+              type="file"
+              accept="image/*"
+              onChange={handleLogoChange}
+            />
           </div>
 
           <div className="space-y-2">

@@ -1,3 +1,4 @@
+
 import React from "react";
 import { LetterData } from "./LetterApp";
 import { Phone, Mail, Globe, MapPin } from "lucide-react";
@@ -44,17 +45,33 @@ const LetterPreview: React.FC<LetterPreviewProps> = ({ data }) => {
   return (
     <div className="max-w-4xl mx-auto bg-white shadow-lg print:shadow-none print:max-w-none">
       <div className="p-8 min-h-[29.7cm] relative">
-        {/* Header with Letterhead and Contact Info */}
+        {/* Header with Logo, Letterhead and Contact Info */}
         <div className="border-b-2 border-gray-300 pb-4 mb-6">
           <div className="flex justify-between items-start">
-            <div className="flex-1">
-              <div className="text-2xl font-bold text-blue-600 leading-tight">
-                {formatText(data.letterhead)}
-              </div>
-              <div className="text-[10px] font-bold text-blue-600 leading-tight">
-                {formatText(data.subhead)}
+            <div className="flex items-start gap-4 flex-1">
+              {/* Logo */}
+              {data.logo && (
+                <div className="flex-shrink-0">
+                  <img
+                    src={URL.createObjectURL(data.logo)}
+                    alt="Company Logo"
+                    className="w-16 h-16 object-contain"
+                  />
+                </div>
+              )}
+              
+              {/* Letterhead */}
+              <div className="flex-1">
+                <div className="text-2xl font-bold text-blue-600 leading-tight">
+                  {formatText(data.letterhead)}
+                </div>
+                <div className="text-[10px] font-bold text-blue-600 leading-tight">
+                  {formatText(data.subhead)}
+                </div>
               </div>
             </div>
+            
+            {/* Contact Info */}
             <div className="text-sm text-gray-700 max-w-md space-y-2">
               {data.contactInfo.map((item, index) => (
                 <div key={index} className="flex items-start gap-2">
