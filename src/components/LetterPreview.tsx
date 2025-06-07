@@ -20,13 +20,13 @@ const LetterPreview: React.FC<LetterPreviewProps> = ({ data }) => {
   const getIcon = (type: string) => {
     switch (type) {
       case "phone":
-        return <Phone className="w-4 h-4 text-blue-600" />;
+        return <Phone className="w-4 h-4 text-[#0071BD]" />;
       case "email":
-        return <Mail className="w-4 h-4 text-blue-600" />;
+        return <Mail className="w-4 h-4 text-[#0071BD]" />;
       case "website":
-        return <Globe className="w-4 h-4 text-blue-600" />;
+        return <Globe className="w-4 h-4 text-[#0071BD]" />;
       case "address":
-        return <MapPin className="w-4 h-4 text-blue-600" />;
+        return <MapPin className="w-4 h-4 text-[#0071BD]" />;
       default:
         return null;
     }
@@ -48,31 +48,31 @@ const LetterPreview: React.FC<LetterPreviewProps> = ({ data }) => {
         {/* Header with Logo, Letterhead and Contact Info */}
         <div className="border-b-2 border-gray-300 pb-4 mb-6">
           <div className="flex justify-between items-start">
-            <div className="flex items-start gap-4 flex-1">
+            <div className="flex items-start gap-0 flex-1">
               {/* Logo */}
               {data.logo && (
                 <div className="flex-shrink-0">
                   <img
                     src={URL.createObjectURL(data.logo)}
                     alt="Company Logo"
-                    className="w-16 h-16 object-contain"
+                    className="w-30 h-20 object-contain"
                   />
                 </div>
               )}
               
               {/* Letterhead */}
               <div className="flex-1">
-                <div className="text-2xl font-bold text-blue-600 leading-tight">
+                <div className="text-3xl font-bold text-[#020817] leading-tight">
                   {formatText(data.letterhead)}
                 </div>
-                <div className="text-[10px] font-bold text-blue-600 leading-tight">
+                <div className="text-[10px] font-bold text-[#020817] leading-tight">
                   {formatText(data.subhead)}
                 </div>
               </div>
             </div>
             
             {/* Contact Info */}
-            <div className="text-sm text-gray-700 max-w-md space-y-2">
+            <div className="text-sm text-[#020817] max-w-md space-y-2">
               {data.contactInfo.map((item, index) => (
                 <div key={index} className="flex items-start gap-2">
                   {getIcon(item.type)}
@@ -111,7 +111,7 @@ const LetterPreview: React.FC<LetterPreviewProps> = ({ data }) => {
         {/* Date and Attention */}
         <div className="flex justify-between items-start mb-6">
           <div>
-            <span className="font-semibold">ATTENTION TO:</span>{" "}
+            <span className="font-semibold capitalize">ATTENTION TO:</span>{" "}
             {data.attentionTo}
           </div>
           <div className="text-right">
@@ -167,7 +167,7 @@ const LetterPreview: React.FC<LetterPreviewProps> = ({ data }) => {
             )}
             <div className="border-b border-black w-48 mb-2"></div>
             <div className="font-semibold text-sm">{data.name}</div>
-            <div className="text-sm text-gray-600">{data.position}</div>
+            <div className="text-sm font-semibold text-[#020817]">{data.position}</div>
           </div>
 
           {/* Bottom Stamps Row */}

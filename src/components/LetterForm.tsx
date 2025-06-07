@@ -158,6 +158,7 @@ const LetterForm: React.FC<LetterFormProps> = ({ onSubmit, initialData }) => {
                 onChange={(e) =>
                   handleInputChange("attentionTo", e.target.value)
                 }
+                className="capitalize"
                 required
               />
             </div>
